@@ -17,40 +17,40 @@
 - 🎨 **現代化 UI**：使用 TailwindCSS 打造美觀介面
 - 🔌 **RESTful API**：清晰的 API 設計，JWT token 驗證
 
-## 🏗️ 系統架構
+## 🏗️ System Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐
-│                       瀏覽器                              │
-│                   (localhost:5173)                       │
+│                       Browser                           │
+│                   (localhost:5173)                      │
 └────────────────────┬────────────────────────────────────┘
                      │
                      │ HTTP Request
                      │
 ┌────────────────────▼────────────────────────────────────┐
-│                  React Frontend                          │
+│                  React Frontend                         │
 │  ┌──────────────────────────────────────────────────┐   │
-│  │  • 股票輸入介面                                    │   │
-│  │  • Chart.js 圖表顯示                              │   │
-│  │  • TailwindCSS 樣式                               │   │
+│  │  • Stock Input Box                               │   │
+│  │  • Chart.js Visualization                        │   │
+│  │  • TailwindCSS Styling                           │   │
 │  └──────────────────────────────────────────────────┘   │
 └────────────────────┬────────────────────────────────────┘
                      │
                      │ API Call
                      │
 ┌────────────────────▼────────────────────────────────────┐
-│                  FastAPI Backend                         │
+│                  FastAPI Backend                        │
 │  ┌──────────────────────────────────────────────────┐   │
-│  │  API Endpoints:                                   │   │
-│  │  • GET /predict?symbol=2330.TW&days=7           │   │
-│  │  • GET /history?symbol=2330.TW&range=3mo        │   │
-│  │  • GET /health                                    │   │
+│  │  API Endpoints:                                  │   │
+│  │  • GET /predict?symbol=2330.TW&days=7            │   │
+│  │  • GET /history?symbol=2330.TW&range=3mo         │   │
+│  │  • GET /health                                   │   │
 │  └──────────────────────────────────────────────────┘   │
-│                                                          │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  │
-│  │   yfinance   │  │   Prophet    │  │    SQLite    │  │
-│  │  股價資料來源  │  │   AI 預測模型 │  │  快取資料庫   │  │
-│  └──────────────┘  └──────────────┘  └──────────────┘  │
+│                                                         │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐   │
+│  │   yfinance   │  │   Prophet    │  │    SQLite    │   │
+│  │  Stock Data  │  │ AI Prediction│  │Cache Database│   │
+│  └──────────────┘  └──────────────┘  └──────────────┘   │
 └─────────────────────────────────────────────────────────┘
 ```
 
@@ -64,7 +64,7 @@
 - **Pandas** - 資料處理與分析
 
 ### 前端
-- **React 18** - 使用 Vite 構建工具
+- **React 19** - 使用 Vite 構建工具
 - **Supabase Auth** - 使用者認證與授權
 - **TailwindCSS** - 實用優先的 CSS 框架
 - **Chart.js** - 互動式圖表庫
@@ -78,28 +78,28 @@
 
 ```
 stock-insight/
-├── backend/                    # 後端應用
+├── backend/                   # 後端應用
 │   ├── main.py                # FastAPI 主程式
 │   ├── requirements.txt       # Python 依賴
-│   ├── Dockerfile            # 後端容器配置
+│   ├── Dockerfile             # 後端容器配置
 │   └── utils/
-│       └── cache.py          # SQLite 快取管理
+│       └── cache.py           # SQLite 快取管理
 ├── frontend/                  # 前端應用
 │   ├── src/
-│   │   ├── App.jsx          # 主應用元件
-│   │   ├── App.css          # 樣式文件
-│   │   ├── main.jsx         # 應用入口
+│   │   ├── App.jsx            # 主應用元件
+│   │   ├── App.css            # 樣式文件
+│   │   ├── main.jsx           # 應用入口
 │   │   └── components/
-│   │       └── StockChart.jsx  # 圖表元件
-│   ├── index.html           # HTML 模板
-│   ├── package.json         # Node.js 依賴
-│   ├── vite.config.js       # Vite 配置
-│   ├── tailwind.config.js   # Tailwind 配置
-│   ├── postcss.config.js    # PostCSS 配置
-│   └── Dockerfile          # 前端容器配置
-├── docker-compose.yml       # Docker Compose 配置
-├── .gitignore              # Git 忽略文件
-└── README.md               # 專案說明文件
+│   │       └── StockChart.jsx # 圖表元件
+│   ├── index.html             # HTML 模板
+│   ├── package.json           # Node.js 依賴
+│   ├── vite.config.js         # Vite 配置
+│   ├── tailwind.config.js     # Tailwind 配置
+│   ├── postcss.config.js      # PostCSS 配置
+│   └── Dockerfile             # 前端容器配置
+├── docker-compose.yml         # Docker Compose 配置
+├── .gitignore                 # Git 忽略文件
+└── README.md                  # 專案說明文件
 ```
 
 ## 🚀 快速開始
@@ -122,9 +122,6 @@ stock-insight/
    cp .env.example .env
    # 編輯 .env 填入 SUPABASE_URL 和 SUPABASE_JWT_SECRET
    ```
-
-3. **詳細設定指南**
-   - 請參考 [SUPABASE_AUTH_SETUP.md](SUPABASE_AUTH_SETUP.md) 完整說明
 
 ### 方法一：使用 Docker（推薦）
 
@@ -365,7 +362,7 @@ A: 在前端程式碼中修改 API 呼叫參數，或直接透過 API 傳入 `da
 
 ## 🚧 未來改進方向
 
-- [x] ✅ 加入使用者認證系統（已完成 - Supabase Auth）
+- [x] 加入使用者認證系統（已完成 - Supabase Auth）
 - [ ] 加入更多技術指標（RSI、MACD 等）
 - [ ] 支援多個股票比較
 - [ ] 使用者投資組合管理
@@ -374,19 +371,3 @@ A: 在前端程式碼中修改 API 呼叫參數，或直接透過 API 傳入 `da
 - [ ] 支援更多預測模型（LSTM、ARIMA 等）
 - [ ] 加入股票新聞爬蟲與情緒分析
 - [ ] 建立自動化測試
-
-## 📄 授權
-
-本專案採用 MIT 授權條款 - 詳見 [LICENSE](LICENSE) 文件
-
-## 👤 作者
-
-打造於 2025 年，作為技術面試展示專案
-
-## ⚠️ 免責聲明
-
-本專案僅供學習與展示用途，預測結果不構成任何投資建議。投資有風險，請謹慎評估。
-
----
-
-**如果這個專案對你有幫助，歡迎給個 ⭐ Star！**
