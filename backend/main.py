@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from prophet import Prophet
 import yfinance as yf
@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 from typing import Optional
 import logging
 from utils.cache import CacheManager
+from utils.auth import verify_token, get_current_user
 
 # 設定日誌
 logging.basicConfig(level=logging.INFO)
@@ -89,16 +90,22 @@ async def get_history(symbol: str, range: str = "3mo"):
 
 
 @app.get("/predict")
-async def predict_stock(symbol: str, days: int = 7):
+async def predict_stock(
+    symbol: str, 
+    days: int = 7,
+    token_payload: dict = Depends(verify_token)
+):
     """
-    預測股價
+    預測股價（需要驗證）
     
     Args:
         symbol: 股票代號（例如：2330.TW）
         days: 預測天數（預設 7 天）
+        token_payload: JWT token 解碼後的使用者資訊
     """
     try:
-        logger.info(f"Predicting {symbol} for {days} days")
+        user = get_current_user(token_payload)
+        logger.info(f"User {user['email']} predicting {symbol} for {days} days")
         
         # 檢查快取
         cached_result = cache_manager.get_prediction(symbol, days)

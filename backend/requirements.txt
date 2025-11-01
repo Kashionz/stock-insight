@@ -5,3 +5,5 @@ prophet
 pandas
 numpy
 python-multipart
+python-jose[cryptography]
+requests

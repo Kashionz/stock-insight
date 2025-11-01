@@ -1,20 +1,50 @@
 import { useState } from 'react';
+import { useAuth } from './contexts/AuthContext';
 import StockChart from './components/StockChart';
+import Login from './components/Login';
+import Register from './components/Register';
 import './App.css';
 
-function App() {
+function StockInsightApp() {
+  const { user, loading: authLoading, signOut, getAccessToken } = useAuth();
+  const [showRegister, setShowRegister] = useState(false);
   const [symbol, setSymbol] = useState('2330.TW');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [data, setData] = useState(null);
+
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-600">載入中...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!user) {
+    if (showRegister) {
+      return <Register onSwitchToLogin={() => setShowRegister(false)} />;
+    }
+    return <Login onSwitchToRegister={() => setShowRegister(true)} />;
+  }
 
   const handlePredict = async () => {
     setLoading(true);
     setError(null);
     
     try {
+      const token = await getAccessToken();
+      
       const response = await fetch(
-        `http://localhost:8000/predict?symbol=${symbol}&days=7`
+        `http://localhost:8000/predict?symbol=${symbol}&days=7`,
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        }
       );
       
       if (!response.ok) {
@@ -31,18 +61,38 @@ function App() {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      await signOut();
+    } catch (err) {
+      console.error('登出失敗:', err);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
       <div className="container mx-auto px-4 py-8">
-        {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-2">
-            📈 Stock Insight
-          </h1>
+          <div className="flex justify-between items-center max-w-6xl mx-auto mb-4">
+            <div></div>
+            <h1 className="text-4xl font-bold text-gray-800">
+              📈 Stock Insight
+            </h1>
+            <div className="flex items-center gap-4">
+              <span className="text-sm text-gray-600">
+                {user.email}
+              </span>
+              <button
+                onClick={handleLogout}
+                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors text-sm"
+              >
+                登出
+              </button>
+            </div>
+          </div>
           <p className="text-gray-600">AI 驅動的股票預測平台</p>
         </div>
 
-        {/* Input Section */}
         <div className="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-6 mb-8">
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex-1">
@@ -82,7 +132,6 @@ function App() {
             </div>
           </div>
 
-          {/* Error Message */}
           {error && (
             <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
               <p className="text-red-800 text-sm">❌ {error}</p>
@@ -90,10 +139,8 @@ function App() {
           )}
         </div>
 
-        {/* Results Section */}
         {data && (
           <div className="max-w-6xl mx-auto">
-            {/* Info Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
               <div className="bg-white rounded-lg shadow p-6">
                 <p className="text-sm text-gray-600 mb-1">股票代號</p>
@@ -115,7 +162,6 @@ function App() {
               </div>
             </div>
 
-            {/* Chart */}
             <div className="bg-white rounded-lg shadow-lg p-6">
               <h2 className="text-xl font-bold text-gray-800 mb-4">
                 股價走勢與預測
@@ -123,7 +169,6 @@ function App() {
               <StockChart data={data} />
             </div>
 
-            {/* Prediction Details */}
             <div className="bg-white rounded-lg shadow-lg p-6 mt-8">
               <h2 className="text-xl font-bold text-gray-800 mb-4">
                 預測明細
@@ -164,7 +209,6 @@ function App() {
           </div>
         )}
 
-        {/* Footer */}
         <div className="text-center mt-12 text-gray-600 text-sm">
           <p>⚠️ 此預測僅供參考，不構成投資建議</p>
           <p className="mt-2">Built with FastAPI + React + Prophet</p>
@@ -174,4 +218,4 @@ function App() {
   );
 }
 
-export default App;
+export default StockInsightApp;

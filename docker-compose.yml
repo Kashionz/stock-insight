@@ -13,6 +13,8 @@ services:
       - backend-cache:/app/cache
     environment:
       - PYTHONUNBUFFERED=1
+    env_file:
+      - ./backend/.env
     networks:
       - stock-network
     restart: unless-stopped
@@ -21,6 +23,8 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+    env_file:
+      - ./frontend/.env
     container_name: stock-insight-frontend
     ports:
       - "5173:5173"

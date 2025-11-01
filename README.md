@@ -10,11 +10,12 @@
 ## 🎯 專案特色
 
 - 🤖 **AI 驅動預測**：使用 Prophet 時間序列模型進行股價預測
-- 📊 **視覺化圖表**：使用 Chart.js 呈現歷史股價與預測結果
+- � **使用者驗證**：整合 Supabase Auth 完整的註冊/登入系統
+- �📊 **視覺化圖表**：使用 Chart.js 呈現歷史股價與預測結果
 - ⚡ **快取機制**：SQLite 資料庫快取預測結果，提升響應速度
 - 🐳 **Docker 部署**：完整的 Docker Compose 配置，一鍵啟動
 - 🎨 **現代化 UI**：使用 TailwindCSS 打造美觀介面
-- 🔌 **RESTful API**：清晰的 API 設計，易於擴展
+- 🔌 **RESTful API**：清晰的 API 設計，JWT token 驗證
 
 ## 🏗️ 系統架構
 
@@ -64,6 +65,7 @@
 
 ### 前端
 - **React 18** - 使用 Vite 構建工具
+- **Supabase Auth** - 使用者認證與授權
 - **TailwindCSS** - 實用優先的 CSS 框架
 - **Chart.js** - 互動式圖表庫
 - **react-chartjs-2** - Chart.js 的 React 封裝
@@ -101,6 +103,28 @@ stock-insight/
 ```
 
 ## 🚀 快速開始
+
+### ⚙️ 前置設定：Supabase 配置
+
+1. **建立 Supabase 專案**
+   - 前往 [Supabase Dashboard](https://app.supabase.com/)
+   - 建立新專案並啟用 Email Authentication
+
+2. **設定環境變數**
+   ```bash
+   # Frontend
+   cd frontend
+   cp .env.example .env
+   # 編輯 .env 填入 SUPABASE_URL 和 SUPABASE_ANON_KEY
+   
+   # Backend
+   cd ../backend
+   cp .env.example .env
+   # 編輯 .env 填入 SUPABASE_URL 和 SUPABASE_JWT_SECRET
+   ```
+
+3. **詳細設定指南**
+   - 請參考 [SUPABASE_AUTH_SETUP.md](SUPABASE_AUTH_SETUP.md) 完整說明
 
 ### 方法一：使用 Docker（推薦）
 
@@ -162,9 +186,18 @@ stock-insight/
 
 ## 📡 API 文檔
 
-### 1. 預測股價
+### 🔐 認證
+
+大部分 API endpoints 需要 JWT token 驗證。在請求 header 中加入：
+```
+Authorization: Bearer <your_jwt_token>
+```
+
+### 1. 預測股價 🔒
 
 **Endpoint:** `GET /predict`
+
+**需要認證：** ✅ 是
 
 **參數：**
 - `symbol` (required): 股票代號（例如：2330.TW）
@@ -332,9 +365,10 @@ A: 在前端程式碼中修改 API 呼叫參數，或直接透過 API 傳入 `da
 
 ## 🚧 未來改進方向
 
+- [x] ✅ 加入使用者認證系統（已完成 - Supabase Auth）
 - [ ] 加入更多技術指標（RSI、MACD 等）
 - [ ] 支援多個股票比較
-- [ ] 加入使用者認證系統
+- [ ] 使用者投資組合管理
 - [ ] 整合即時股價 WebSocket
 - [ ] 加入模型準確度評估
 - [ ] 支援更多預測模型（LSTM、ARIMA 等）
