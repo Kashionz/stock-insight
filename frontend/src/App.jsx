@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useAuth } from './contexts/AuthContext';
 import StockChart from './components/StockChart';
+import TechnicalIndicators from './components/TechnicalIndicators';
 import Login from './components/Login';
 import Register from './components/Register';
 import './App.css';
@@ -169,6 +170,13 @@ function StockInsightApp() {
               <StockChart data={data} />
             </div>
 
+            {/* 技術指標卡片 */}
+            {data.latest_indicators && (
+              <div className="mt-8">
+                <TechnicalIndicators indicators={data.latest_indicators} />
+              </div>
+            )}
+
             <div className="bg-white rounded-lg shadow-lg p-6 mt-8">
               <h2 className="text-xl font-bold text-gray-800 mb-4">
                 預測明細
@@ -211,7 +219,7 @@ function StockInsightApp() {
 
         <div className="text-center mt-12 text-gray-600 text-sm">
           <p>⚠️ 此預測僅供參考，不構成投資建議</p>
-          <p className="mt-2">Built with FastAPI + React + Prophet</p>
+          <p className="mt-2">Built with FastAPI + React + Prophet + Technical Indicators</p>
         </div>
       </div>
     </div>

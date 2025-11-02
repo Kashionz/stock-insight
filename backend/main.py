@@ -8,6 +8,7 @@ from typing import Optional
 import logging
 from utils.cache import CacheManager
 from utils.auth import verify_token, get_current_user
+from utils.indicators import calculate_all_indicators, get_latest_indicators, format_indicators_for_chart
 
 # 設定日誌
 logging.basicConfig(level=logging.INFO)
@@ -50,7 +51,7 @@ async def health_check():
 @app.get("/history")
 async def get_history(symbol: str, range: str = "3mo"):
     """
-    取得歷史股價資料
+    取得歷史股價資料與技術指標
     
     Args:
         symbol: 股票代號（例如：2330.TW）
@@ -66,6 +67,10 @@ async def get_history(symbol: str, range: str = "3mo"):
         if df.empty:
             raise HTTPException(status_code=404, detail=f"找不到股票代號 {symbol} 的資料")
         
+        # 計算技術指標
+        indicators = calculate_all_indicators(df)
+        latest_indicators = get_latest_indicators(df)
+        
         # 轉換資料格式
         history_data = []
         for date, row in df.iterrows():
@@ -78,10 +83,15 @@ async def get_history(symbol: str, range: str = "3mo"):
                 "volume": int(row['Volume'])
             })
         
+        # 格式化指標數據
+        indicators_data = format_indicators_for_chart(df, indicators)
+        
         return {
             "symbol": symbol,
             "range": range,
-            "data": history_data
+            "data": history_data,
+            "indicators": indicators_data,
+            "latest_indicators": latest_indicators
         }
     
     except Exception as e:
@@ -119,6 +129,10 @@ async def predict_stock(
         
         if df.empty:
             raise HTTPException(status_code=404, detail=f"找不到股票代號 {symbol} 的資料")
+        
+        # 計算技術指標
+        indicators = calculate_all_indicators(df)
+        latest_indicators = get_latest_indicators(df)
         
         # 準備 Prophet 資料格式（移除時區資訊）
         prophet_df = pd.DataFrame({
@@ -162,6 +176,9 @@ async def predict_stock(
                 "type": "prediction"
             })
         
+        # 格式化指標數據
+        indicators_data = format_indicators_for_chart(df, indicators)
+        
         result = {
             "symbol": symbol,
             "days": days,
@@ -169,8 +186,16 @@ async def predict_stock(
             "last_update": df.index[-1].strftime("%Y-%m-%d"),
             "historical": historical_data,
             "predictions": prediction_data,
+            "indicators": indicators_data,
+            "latest_indicators": latest_indicators,
             "timestamp": datetime.now().isoformat()
         }
+        
+        # Debug: 檢查 indicators_data 是否正確格式化
+        if indicators_data and len(indicators_data) > 0:
+            logger.info(f"Indicators data sample: {indicators_data[0]}")
+        else:
+            logger.warning("Indicators data is empty!")
         
         # 儲存到快取
         cache_manager.save_prediction(symbol, days, result)
