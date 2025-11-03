@@ -6,6 +6,7 @@ import pandas as pd
 from datetime import datetime, timedelta
 from typing import Optional
 import logging
+import pytz
 from utils.cache import CacheManager
 from utils.auth import verify_token, get_current_user
 from utils.indicators import calculate_all_indicators, get_latest_indicators, format_indicators_for_chart
@@ -45,7 +46,8 @@ async def root():
 @app.get("/health")
 async def health_check():
     """健康檢查端點"""
-    return {"status": "healthy", "timestamp": datetime.now().isoformat()}
+    taipei_tz = pytz.timezone('Asia/Taipei')
+    return {"status": "healthy", "timestamp": datetime.now(taipei_tz).isoformat()}
 
 
 @app.get("/history")
@@ -103,6 +105,7 @@ async def get_history(symbol: str, range: str = "3mo"):
 async def predict_stock(
     symbol: str, 
     days: int = 7,
+    force_refresh: bool = False,
     token_payload: dict = Depends(verify_token)
 ):
     """
@@ -111,17 +114,24 @@ async def predict_stock(
     Args:
         symbol: 股票代號（例如：2330.TW）
         days: 預測天數（預設 7 天）
+        force_refresh: 是否強制刷新（忽略快取）
         token_payload: JWT token 解碼後的使用者資訊
     """
     try:
         user = get_current_user(token_payload)
-        logger.info(f"User {user['email']} predicting {symbol} for {days} days")
+        logger.info(f"User {user['email']} predicting {symbol} for {days} days (force_refresh={force_refresh})")
+        
+        # 如果強制刷新，清除該股票的快取
+        if force_refresh:
+            cache_manager.clear_symbol_cache(symbol, days)
+            logger.info(f"Cache cleared for {symbol} due to force_refresh")
         
         # 檢查快取
-        cached_result = cache_manager.get_prediction(symbol, days)
-        if cached_result:
-            logger.info(f"Returning cached prediction for {symbol}")
-            return cached_result
+        if not force_refresh:
+            cached_result = cache_manager.get_prediction(symbol, days)
+            if cached_result:
+                logger.info(f"Returning cached prediction for {symbol}")
+                return cached_result
         
         # 下載最近六個月的股價資料
         stock = yf.Ticker(symbol)
@@ -179,6 +189,7 @@ async def predict_stock(
         # 格式化指標數據
         indicators_data = format_indicators_for_chart(df, indicators)
         
+        taipei_tz = pytz.timezone('Asia/Taipei')
         result = {
             "symbol": symbol,
             "days": days,
@@ -188,7 +199,7 @@ async def predict_stock(
             "predictions": prediction_data,
             "indicators": indicators_data,
             "latest_indicators": latest_indicators,
-            "timestamp": datetime.now().isoformat()
+            "timestamp": datetime.now(taipei_tz).isoformat()
         }
         
         # Debug: 檢查 indicators_data 是否正確格式化

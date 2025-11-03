@@ -82,19 +82,24 @@ function TechnicalIndicators({ indicators }) {
     if (value === undefined || value === null) return null;
 
     return (
-      <div className="bg-gray-50 rounded-lg p-4 hover:bg-gray-100 transition-colors">
+      <div 
+        className="rounded-lg p-4 transition-colors" 
+        style={{ backgroundColor: 'var(--bg-200)' }}
+        onMouseEnter={(e) => e.currentTarget.style.backgroundColor = 'var(--bg-300)'}
+        onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'var(--bg-200)'}
+      >
         <div className="flex justify-between items-start mb-1">
-          <span className="text-sm font-semibold text-gray-700">{indicator.label}</span>
+          <span className="text-sm font-semibold" style={{ color: 'var(--text-100)' }}>{indicator.label}</span>
           {indicator.signal && (
             <span className={`text-xs font-medium ${indicator.signal.color}`}>
               {indicator.signal.text}
             </span>
           )}
         </div>
-        <div className="text-2xl font-bold text-gray-900 mb-1">
+        <div className="text-2xl font-bold mb-1" style={{ color: 'var(--text-100)' }}>
           {typeof value === 'number' ? value.toFixed(2) : value}
         </div>
-        <div className="text-xs text-gray-500">{indicator.description}</div>
+        <div className="text-xs" style={{ color: 'var(--text-200)' }}>{indicator.description}</div>
       </div>
     );
   };
@@ -105,7 +110,7 @@ function TechnicalIndicators({ indicators }) {
 
     return (
       <div className="mb-6">
-        <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center">
+        <h3 className="text-lg font-bold mb-4 flex items-center" style={{ color: 'var(--text-100)' }}>
           <span className="mr-2">{icon}</span>
           {title}
         </h3>
@@ -119,10 +124,10 @@ function TechnicalIndicators({ indicators }) {
   };
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-6">
+    <div className="rounded-lg shadow-sm p-6" style={{ backgroundColor: 'var(--bg-100)' }}>
       <div className="mb-6">
-        <h2 className="text-2xl font-bold text-gray-800 mb-2">技術指標分析</h2>
-        <p className="text-sm text-gray-600">
+        <h2 className="text-2xl font-bold mb-2" style={{ color: 'var(--text-100)' }}>技術指標分析</h2>
+        <p className="text-sm" style={{ color: 'var(--text-200)' }}>
           以下是基於歷史數據計算的各種技術指標，可用於輔助投資決策
         </p>
       </div>
@@ -157,9 +162,12 @@ function TechnicalIndicators({ indicators }) {
         indicatorList={trendStrengthIndicators}
       />
 
-      <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
-        <h4 className="font-semibold text-blue-900 mb-2">💡 指標使用提示</h4>
-        <ul className="text-sm text-blue-800 space-y-1">
+      <div className="mt-6 p-4 border rounded-lg" style={{ 
+        backgroundColor: 'var(--bg-200)', 
+        borderColor: 'var(--primary-200)'
+      }}>
+        <h4 className="font-semibold mb-2" style={{ color: 'var(--text-100)' }}>💡 指標使用提示</h4>
+        <ul className="text-sm space-y-1" style={{ color: 'var(--text-200)' }}>
           <li>• <strong>RSI</strong>: &gt;70 超買，&lt;30 超賣</li>
           <li>• <strong>MACD</strong>: 線在信號線上方為看漲，下方為看跌</li>
           <li>• <strong>布林通道</strong>: 價格接近上軌可能回落，接近下軌可能反彈</li>

@@ -93,8 +93,9 @@ class CacheManager:
             conn = sqlite3.connect(self.db_path)
             cursor = conn.cursor()
             
-            # 設定快取有效期限（24小時）
-            expires_at = datetime.now() + timedelta(hours=24)
+            # 設定快取有效期限（1小時）
+            # 股價資料需要更頻繁地更新，特別是在交易時間
+            expires_at = datetime.now() + timedelta(hours=1)
             
             cursor.execute('''
                 INSERT INTO predictions (symbol, days, data, expires_at)
@@ -103,7 +104,7 @@ class CacheManager:
             
             conn.commit()
             conn.close()
-            logger.info(f"Saved prediction to cache for {symbol} ({days} days)")
+            logger.info(f"Saved prediction to cache for {symbol} ({days} days), expires at {expires_at}")
         
         except Exception as e:
             logger.error(f"Error saving prediction to cache: {str(e)}")
@@ -128,3 +129,36 @@ class CacheManager:
         
         except Exception as e:
             logger.error(f"Error clearing expired cache: {str(e)}")
+    
+    def clear_symbol_cache(self, symbol: str, days: Optional[int] = None):
+        """
+        清除特定股票的快取
+        
+        Args:
+            symbol: 股票代號
+            days: 預測天數（可選，如果不指定則清除該股票所有快取）
+        """
+        try:
+            conn = sqlite3.connect(self.db_path)
+            cursor = conn.cursor()
+            
+            if days is not None:
+                cursor.execute('''
+                    DELETE FROM predictions
+                    WHERE symbol = ? AND days = ?
+                ''', (symbol, days))
+            else:
+                cursor.execute('''
+                    DELETE FROM predictions
+                    WHERE symbol = ?
+                ''', (symbol,))
+            
+            deleted_count = cursor.rowcount
+            conn.commit()
+            conn.close()
+            
+            if deleted_count > 0:
+                logger.info(f"Cleared {deleted_count} cache entries for {symbol}")
+        
+        except Exception as e:
+            logger.error(f"Error clearing symbol cache: {str(e)}")

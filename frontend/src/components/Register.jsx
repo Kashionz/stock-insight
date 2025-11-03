@@ -41,19 +41,25 @@ function Register({ onSwitchToLogin }) {
 
   if (success) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center px-4">
-        <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
+      <div className="min-h-screen flex items-center justify-center px-4" style={{ backgroundColor: 'var(--bg-200)' }}>
+        <div className="max-w-md w-full rounded-lg shadow-sm p-8" style={{ backgroundColor: 'var(--bg-100)' }}>
           <div className="text-center">
             <div className="text-6xl mb-4">✅</div>
-            <h2 className="text-2xl font-bold text-gray-800 mb-4">
+            <h2 className="text-2xl font-bold mb-4" style={{ color: 'var(--text-100)' }}>
               註冊成功！
             </h2>
-            <p className="text-gray-600 mb-6">
+            <p className="mb-6" style={{ color: 'var(--text-200)' }}>
               請檢查您的 Email 信箱以驗證您的帳號。
             </p>
             <button
               onClick={onSwitchToLogin}
-              className="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+              className="w-full py-2 px-4 rounded-lg transition-colors font-medium"
+              style={{ 
+                backgroundColor: 'var(--primary-100)',
+                color: 'var(--bg-100)'
+              }}
+              onMouseEnter={(e) => e.target.style.backgroundColor = 'var(--accent-200)'}
+              onMouseLeave={(e) => e.target.style.backgroundColor = 'var(--primary-100)'}
             >
               返回登入
             </button>
@@ -64,18 +70,18 @@ function Register({ onSwitchToLogin }) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center px-4">
-      <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8">
+    <div className="min-h-screen flex items-center justify-center px-4" style={{ backgroundColor: 'var(--bg-200)' }}>
+      <div className="max-w-md w-full rounded-lg shadow-sm p-8" style={{ backgroundColor: 'var(--bg-100)' }}>
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-800 mb-2">
+          <h1 className="text-3xl font-bold mb-2" style={{ color: 'var(--text-100)' }}>
             📈 Stock Insight
           </h1>
-          <p className="text-gray-600">註冊新帳號</p>
+          <p style={{ color: 'var(--text-200)' }}>註冊新帳號</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-100)' }}>
               Email
             </label>
             <input
@@ -84,12 +90,25 @@ function Register({ onSwitchToLogin }) {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="your@email.com"
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all"
+              style={{ 
+                borderColor: 'var(--bg-300)', 
+                backgroundColor: 'var(--bg-100)',
+                color: 'var(--text-100)'
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = 'var(--primary-100)';
+                e.target.style.boxShadow = `0 0 0 3px ${getComputedStyle(document.documentElement).getPropertyValue('--primary-200')}33`;
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = 'var(--bg-300)';
+                e.target.style.boxShadow = 'none';
+              }}
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-100)' }}>
               密碼
             </label>
             <input
@@ -98,12 +117,25 @@ function Register({ onSwitchToLogin }) {
               onChange={(e) => setPassword(e.target.value)}
               placeholder="至少 6 個字元"
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all"
+              style={{ 
+                borderColor: 'var(--bg-300)', 
+                backgroundColor: 'var(--bg-100)',
+                color: 'var(--text-100)'
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = 'var(--primary-100)';
+                e.target.style.boxShadow = `0 0 0 3px ${getComputedStyle(document.documentElement).getPropertyValue('--primary-200')}33`;
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = 'var(--bg-300)';
+                e.target.style.boxShadow = 'none';
+              }}
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
+            <label className="block text-sm font-medium mb-2" style={{ color: 'var(--text-100)' }}>
               確認密碼
             </label>
             <input
@@ -112,31 +144,61 @@ function Register({ onSwitchToLogin }) {
               onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="再次輸入密碼"
               required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 transition-all"
+              style={{ 
+                borderColor: 'var(--bg-300)', 
+                backgroundColor: 'var(--bg-100)',
+                color: 'var(--text-100)'
+              }}
+              onFocus={(e) => {
+                e.target.style.borderColor = 'var(--primary-100)';
+                e.target.style.boxShadow = `0 0 0 3px ${getComputedStyle(document.documentElement).getPropertyValue('--primary-200')}33`;
+              }}
+              onBlur={(e) => {
+                e.target.style.borderColor = 'var(--bg-300)';
+                e.target.style.boxShadow = 'none';
+              }}
             />
           </div>
 
           {error && (
-            <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
-              <p className="text-red-800 text-sm">❌ {error}</p>
+            <div className="p-4 border rounded-lg" style={{ 
+              backgroundColor: '#fee', 
+              borderColor: '#fcc',
+              color: '#c33'
+            }}>
+              <p className="text-sm">❌ {error}</p>
             </div>
           )}
 
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2 px-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors font-medium"
+            className="w-full py-2 px-4 rounded-lg disabled:cursor-not-allowed transition-colors font-medium"
+            style={{ 
+              backgroundColor: loading ? 'var(--bg-300)' : 'var(--primary-100)',
+              color: 'var(--bg-100)'
+            }}
+            onMouseEnter={(e) => {
+              if (!loading) e.target.style.backgroundColor = 'var(--accent-200)';
+            }}
+            onMouseLeave={(e) => {
+              if (!loading) e.target.style.backgroundColor = 'var(--primary-100)';
+            }}
           >
             {loading ? '註冊中...' : '註冊'}
           </button>
         </form>
 
         <div className="mt-6 text-center">
-          <p className="text-gray-600 text-sm">
+          <p className="text-sm" style={{ color: 'var(--text-200)' }}>
             已經有帳號了？{' '}
             <button
               onClick={onSwitchToLogin}
-              className="text-blue-600 hover:text-blue-700 font-medium"
+              className="font-medium transition-colors"
+              style={{ color: 'var(--primary-100)' }}
+              onMouseEnter={(e) => e.target.style.color = 'var(--accent-200)'}
+              onMouseLeave={(e) => e.target.style.color = 'var(--primary-100)'}
             >
               立即登入
             </button>

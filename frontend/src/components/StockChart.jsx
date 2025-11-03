@@ -426,31 +426,49 @@ function StockChart({ data }) {
       <div className="mb-4 flex flex-wrap gap-2">
         <button
           onClick={() => setShowIndicators({...showIndicators, sma: !showIndicators.sma})}
-          className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-            showIndicators.sma 
-              ? 'bg-blue-600 text-white' 
-              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-          }`}
+          className="px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+          style={{
+            backgroundColor: showIndicators.sma ? 'var(--primary-100)' : 'var(--bg-200)',
+            color: showIndicators.sma ? 'var(--bg-100)' : 'var(--text-100)'
+          }}
+          onMouseEnter={(e) => {
+            if (!showIndicators.sma) e.target.style.backgroundColor = 'var(--bg-300)';
+          }}
+          onMouseLeave={(e) => {
+            if (!showIndicators.sma) e.target.style.backgroundColor = 'var(--bg-200)';
+          }}
         >
           SMA
         </button>
         <button
           onClick={() => setShowIndicators({...showIndicators, ema: !showIndicators.ema})}
-          className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-            showIndicators.ema 
-              ? 'bg-blue-600 text-white' 
-              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-          }`}
+          className="px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+          style={{
+            backgroundColor: showIndicators.ema ? 'var(--primary-100)' : 'var(--bg-200)',
+            color: showIndicators.ema ? 'var(--bg-100)' : 'var(--text-100)'
+          }}
+          onMouseEnter={(e) => {
+            if (!showIndicators.ema) e.target.style.backgroundColor = 'var(--bg-300)';
+          }}
+          onMouseLeave={(e) => {
+            if (!showIndicators.ema) e.target.style.backgroundColor = 'var(--bg-200)';
+          }}
         >
           EMA
         </button>
         <button
           onClick={() => setShowIndicators({...showIndicators, bb: !showIndicators.bb})}
-          className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-            showIndicators.bb 
-              ? 'bg-blue-600 text-white' 
-              : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-          }`}
+          className="px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+          style={{
+            backgroundColor: showIndicators.bb ? 'var(--primary-100)' : 'var(--bg-200)',
+            color: showIndicators.bb ? 'var(--bg-100)' : 'var(--text-100)'
+          }}
+          onMouseEnter={(e) => {
+            if (!showIndicators.bb) e.target.style.backgroundColor = 'var(--bg-300)';
+          }}
+          onMouseLeave={(e) => {
+            if (!showIndicators.bb) e.target.style.backgroundColor = 'var(--bg-200)';
+          }}
         >
           Bollinger Bands
         </button>

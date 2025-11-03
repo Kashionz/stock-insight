@@ -176,7 +176,6 @@ frontend/
 
 - [Investopedia - Technical Indicators](https://www.investopedia.com/terms/t/technicalindicator.asp)
 - [TradingView - Technical Analysis](https://www.tradingview.com/education/)
-- [pandas-ta Documentation](https://github.com/twopirllc/pandas-ta)
 
 ---
 
