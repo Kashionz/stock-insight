@@ -76,7 +76,7 @@ function StockInsightApp() {
         <div className="text-center mb-8">
           <div className="relative max-w-6xl mx-auto mb-4">
             <h1 className="text-4xl font-bold" style={{ color: 'var(--text-100)' }}>
-              📈 Stock Insight
+              股票預測平台
             </h1>
             <div className="absolute right-0 top-0 flex items-center gap-4">
               <span className="text-sm" style={{ color: 'var(--text-200)' }}>
@@ -96,7 +96,6 @@ function StockInsightApp() {
               </button>
             </div>
           </div>
-          <p style={{ color: 'var(--text-200)' }}>AI 驅動的股票預測平台</p>
         </div>
 
         <div className="max-w-2xl mx-auto rounded-lg shadow-sm p-6 mb-8" style={{ backgroundColor: 'var(--bg-100)' }}>

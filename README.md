@@ -1,23 +1,22 @@
-# 📈 Stock Insight - AI 股票預測平台
+# Stock Insight - AI 股票預測平台
 
 [![Python](https://img.shields.io/badge/Python-3.11-blue.svg)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.109-green.svg)](https://fastapi.tiangolo.com/)
 [![React](https://img.shields.io/badge/React-18.2-blue.svg)](https://reactjs.org/)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
-一個使用 AI 技術預測股票價格的完整 Web 應用，結合 FastAPI 後端與 React 前端，適合作為技術面試的 Side Project 展示。
+使用 AI 技術簡單預測股票價格的 Web 應用。
 
-## 🎯 專案特色
+## 專案功能
 
-- 🤖 **AI 驅動預測**：使用 Prophet 時間序列模型進行股價預測
-- � **使用者驗證**：整合 Supabase Auth 完整的註冊/登入系統
-- �📊 **視覺化圖表**：使用 Chart.js 呈現歷史股價與預測結果
-- ⚡ **快取機制**：SQLite 資料庫快取預測結果，提升響應速度
-- 🐳 **Docker 部署**：完整的 Docker Compose 配置，一鍵啟動
-- 🎨 **現代化 UI**：使用 TailwindCSS 打造美觀介面
-- 🔌 **RESTful API**：清晰的 API 設計，JWT token 驗證
+-  **AI 驅動預測**：使用 Prophet 時間序列模型進行股價預測
+-  **使用者驗證**：整合 Supabase Auth 完整的註冊/登入系統
+-  **視覺化圖表**：使用 Chart.js 呈現歷史股價與預測結果
+-  **快取機制**：SQLite 資料庫快取預測結果，提升響應速度
+-  **Docker 部署**：完整的 Docker Compose 配置，一鍵啟動
+-  **現代化 UI**：使用 TailwindCSS 打造美觀介面
+-  **RESTful API**：清晰的 API 設計，JWT token 驗證
 
-## 🏗️ System Architecture
+## 系統架構
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -54,7 +53,7 @@
 └─────────────────────────────────────────────────────────┘
 ```
 
-## 🛠️ 技術棧
+## 技術棧
 
 ### 後端
 - **FastAPI** - 高效能的 Python Web 框架
@@ -74,7 +73,7 @@
 - **Docker** - 容器化應用
 - **Docker Compose** - 多容器編排
 
-## 📦 專案結構
+## 專案結構
 
 ```
 stock-insight/
@@ -102,9 +101,9 @@ stock-insight/
 └── README.md                  # 專案說明文件
 ```
 
-## 🚀 快速開始
+## 使用說明
 
-### ⚙️ 前置設定：Supabase 配置
+### 前置設定：Supabase 配置
 
 1. **建立 Supabase 專案**
    - 前往 [Supabase Dashboard](https://app.supabase.com/)
@@ -181,20 +180,18 @@ stock-insight/
    npm run dev
    ```
 
-## 📡 API 文檔
+## API 文檔
 
-### 🔐 認證
+### 認證
 
 大部分 API endpoints 需要 JWT token 驗證。在請求 header 中加入：
 ```
 Authorization: Bearer <your_jwt_token>
 ```
 
-### 1. 預測股價 🔒
+### 1. 預測股價
 
 **Endpoint:** `GET /predict`
-
-**需要認證：** ✅ 是
 
 **參數：**
 - `symbol` (required): 股票代號（例如：2330.TW）
@@ -263,33 +260,12 @@ curl "http://localhost:8000/history?symbol=2330.TW&range=3mo"
 }
 ```
 
-### 3. 健康檢查
-
-**Endpoint:** `GET /health`
-
-**範例回應：**
-```json
-{
-  "status": "healthy",
-  "timestamp": "2025-11-02T10:30:00"
-}
-```
-
 ## 🖼️ 使用介面
 
 ### 主畫面
-![主畫面](https://via.placeholder.com/800x450?text=Stock+Insight+Main+Screen)
-
 - 輸入股票代號（支援台股、美股等）
 - 點擊「開始預測」按鈕
 - 查看預測結果與圖表
-
-### 預測結果
-![預測結果](https://via.placeholder.com/800x450?text=Prediction+Chart)
-
-- 藍色線：歷史股價
-- 綠色虛線：預測股價
-- 紅色區域：預測信賴區間
 
 ## 💡 使用範例
 
@@ -308,45 +284,7 @@ curl "http://localhost:8000/history?symbol=2330.TW&range=3mo"
 輸入：0700.HK
 ```
 
-## 🧪 測試
-
-### 測試 API
-```bash
-# 健康檢查
-curl http://localhost:8000/health
-
-# 預測台積電股價
-curl "http://localhost:8000/predict?symbol=2330.TW&days=7"
-
-# 取得歷史資料
-curl "http://localhost:8000/history?symbol=2330.TW&range=3mo"
-```
-
-## 📝 面試展示重點
-
-1. **技術廣度**
-   - 前後端分離架構
-   - RESTful API 設計
-   - Docker 容器化部署
-
-2. **AI/ML 應用**
-   - Prophet 時間序列預測
-   - 資料前處理與特徵工程
-   - 模型評估與優化
-
-3. **工程實踐**
-   - 快取機制提升效能
-   - 錯誤處理與日誌記錄
-   - CORS 跨域處理
-   - 程式碼結構化與模組化
-
-4. **前端技能**
-   - React Hooks 使用
-   - 狀態管理
-   - 圖表視覺化
-   - 響應式設計
-
-## 🔧 常見問題
+## 常見問題
 
 ### Q1: 為什麼預測結果與實際有差異？
 A: Prophet 是基於歷史資料的統計模型，僅供參考，不構成投資建議。股市受多種因素影響，包括新聞、政策、市場情緒等。
@@ -355,12 +293,12 @@ A: Prophet 是基於歷史資料的統計模型，僅供參考，不構成投資
 A: 支援 yfinance 可存取的所有市場，包括台灣（.TW）、美國、香港（.HK）、日本（.T）等。
 
 ### Q3: 快取多久會過期？
-A: 預測結果快取 24 小時，過期後會自動重新預測。
+A: 預測結果快取 1 小時，過期後會自動重新預測。
 
 ### Q4: 如何修改預測天數？
 A: 在前端程式碼中修改 API 呼叫參數，或直接透過 API 傳入 `days` 參數。
 
-## � 技術指標分析
+## 技術指標分析
 
 本專案現已整合多種專業技術指標，提供全面的股票技術分析：
 
@@ -389,15 +327,15 @@ A: 在前端程式碼中修改 API 呼叫參數，或直接透過 API 傳入 `da
 - **ADX** - 平均趨向指標
 
 ### 視覺化功能
-- 📈 主圖表整合 SMA、EMA、布林通道
-- 📊 獨立 MACD 子圖（含柱狀圖）
-- 📉 獨立 RSI 子圖（含超買超賣線）
-- 💡 智能信號提示（看漲/看跌/中性）
-- 🎯 即時指標數值卡片
+- 主圖表整合 SMA、EMA、布林通道
+- 獨立 MACD 子圖（含柱狀圖）
+- 獨立 RSI 子圖（含超買超賣線）
+- 智能信號提示（看漲/看跌/中性）
+- 即時指標數值卡片
 
 詳細指標說明請參考 [技術指標文檔](TECHNICAL_INDICATORS.md)
 
-## �🚧 未來改進方向
+## 未來可能新增的功能
 
 - [x] 加入使用者認證系統（已完成 - Supabase Auth）
 - [x] 加入更多技術指標（已完成 - RSI、MACD、Bollinger Bands 等 12+ 指標）
